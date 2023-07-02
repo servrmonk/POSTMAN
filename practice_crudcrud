@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>practice</title>
+</head>
+
+<body>
+    <form action="" id="form">
+        <input type="text" name="" id="name" placeholder="Name">
+        <input type="number" name="" id="number" placeholder="Number">
+        <input type="submit" name="" id="btn">
+    </form>
+    <div id="disp"></div>
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script>
+    var form = document.getElementById('form');
+    var name = document.getElementById('name');
+    var number = document.getElementById('number');
+    form.addEventListener('submit', myFunction);
+    let arr = [];
+    function myFunction(e) {
+        e.preventDefault();
+        console.log("1");
+        // console.log("Name: ",this.name.value," Number: ",this.number.value);
+
+        obj = {
+            name: this.name.value,
+            num: this.number.value
+        }
+        arr.push(obj);
+        // console.log(arr);
+        // showData(arr);
+        axios.post('https://crudcrud.com/api/0c3b39ce2e854cbea1ceba1a38e97e06/apnaData', obj)
+            .then((response) => {
+                
+                console.log("Response data:",response.data);
+                console.log();
+                console.log("Response data Name::",response.data.name);
+                console.log();
+                console.log("Response data Number",response.data.num);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        /*
+        let tr = document.createElement('tr');
+        let td1 = document.createElement('td');
+        td1.innerText = this.name.value;
+        let td2 = document.createElement('td');
+        td2.innerText = this.number.value;
+
+        tr.append(td1,td2);
+        document.getElementById('disp').append(tr)
+        */
+    }
+    window.addEventListener("DOMContentLoaded",()=>{
+        axios.get('https://crudcrud.com/api/0c3b39ce2e854cbea1ceba1a38e97e06/apnaData')
+        .then((response)=>{
+            for (var i = 0; i < response.data.length; i++) {
+                    showData(response.data[i]);
+                    // console.log(".get wala");              
+                }
+        })
+        .catch((error)=>console.log(error))
+        
+    })
+    function showData(obj) {
+        let tr = document.createElement('tr');
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        
+        console.log(obj);
+
+        td1.innerText = obj.name;
+        td2.innerText = obj.num;
+
+        // localStorage.setItem("Data: ", JSON.stringify(arr));
+        tr.append(td1, td2);
+        document.getElementById('disp').append(tr);
+
+    }
+
+
+</script>
